@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private var mCount = 0
-    lateinit var  mShowCount: TextView
+    lateinit var mShowCount: TextView
     lateinit var buttonCount: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
