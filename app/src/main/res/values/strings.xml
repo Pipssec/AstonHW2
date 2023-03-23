@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">HomeWork2</string>
-    <string name="button_label_toast">SayHello</string>
-    <string name="button_label_count">Count</string>
-    <string name="count_initial_value">0</string>
-    <string name="toast_message">Hello Toast!</string>
-    <string name="second_message">Hello!</string>
-    <string name="count_hint_message">Input your text!</string>
+    <string name="edittext_uri">http://developer.android.com</string>
+    <string name="button_uri">Open Website</string>
+
+    <string name="edittext_loc">Golden Gate Bridge</string>
+    <string name="button_loc">Open Location</string>
+
+    <string name="edittext_share">\'Twas brillig and the slithy toves</string>
+    <string name="button_share">Share This Text</string>
 </resources>
