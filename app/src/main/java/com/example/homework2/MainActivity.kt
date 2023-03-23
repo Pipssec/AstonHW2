@@ -1,29 +1,30 @@
 package com.example.homework2
 
-import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 
 
 class MainActivity : AppCompatActivity() {
+    private val REQUEST_TAKE_PHOTO = 1
     lateinit var webSiteEditText: EditText
     lateinit var locationEditText: EditText
     lateinit var shareEditText: EditText
-    lateinit var siteButton: Button
+    lateinit var imageViewPicture: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         webSiteEditText = findViewById(R.id.website_edittext)
+        locationEditText = findViewById(R.id.location_edittext)
+        shareEditText = findViewById(R.id.share_edittext)
+        imageViewPicture = findViewById(R.id.image_view_picture)
     }
 
     fun openWebsite(view: View) {
@@ -32,17 +33,17 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, webpage)
         try {
             startActivity(intent)
-        }catch (e: ActivityNotFoundException) {
+        } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 this,
                 "Cannot handle this",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
 
     fun openLocation(view: View) {
-        locationEditText = findViewById(R.id.location_edittext)
         val location = locationEditText.text.toString()
         val locationUri = Uri.parse("geo:0,0?q=$location")
         val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -50,16 +51,16 @@ class MainActivity : AppCompatActivity() {
         }
         try {
             startActivity(intent)
-        }catch (e: ActivityNotFoundException) {
+        } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 this,
                 "Cannot handle this",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     fun shareText(view: View) {
-        shareEditText = findViewById(R.id.share_edittext)
         val text = shareEditText.toString()
         val mimeType = "text/plain"
         ShareCompat.IntentBuilder
@@ -70,5 +71,21 @@ class MainActivity : AppCompatActivity() {
             .startChooser()
     }
 
+    fun openCamera(view: View) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(intent, REQUEST_TAKE_PHOTO)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            val thumbnailBitmap = data?.extras?.get("data") as Bitmap
+            imageViewPicture.setImageBitmap(thumbnailBitmap)
+        }
+    }
 }
