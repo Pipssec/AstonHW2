@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -31,14 +32,10 @@ class MainActivity : AppCompatActivity() {
         val url = webSiteEditText.text.toString()
         val webpage: Uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, webpage)
-        try {
+        if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(
-                this,
-                "Cannot handle this",
-                Toast.LENGTH_LONG
-            ).show()
+        } else {
+            Log.d("ImplicitIntents", "Can't handle this intent!")
         }
     }
 
@@ -49,14 +46,10 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = locationUri
         }
-        try {
+        if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(
-                this,
-                "Cannot handle this",
-                Toast.LENGTH_LONG
-            ).show()
+        } else {
+            Log.d("ImplicitIntents", "Can't handle this intent!")
         }
     }
 
